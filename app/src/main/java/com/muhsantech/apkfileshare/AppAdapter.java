@@ -25,23 +25,19 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder>{
         this.context = context;
         this.apps = apps;
     }
-
     @NonNull
     @Override
     public AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.app_row,parent,false);
         return new AppViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.appName.setText(apps.get(position).getName());
         long appSize = apps.get(position).getApkSize();
         holder.apkSize.setText(getHumanReadableSize(appSize));
-
         holder.appIcon.setImageDrawable(apps.get(position).getIcon());
-
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +58,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder>{
     }
 
     private String getHumanReadableSize(long apkSize) {
-
         String humanReadableSize;
         if (apkSize<1024){
             humanReadableSize = String.format(context.getString(R.string.app_size_b),(double) apkSize);
@@ -73,7 +68,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.AppViewHolder>{
         }else {
             humanReadableSize = String.format(context.getString(R.string.app_size_gib),(double) (apkSize/Math.pow(1024,3)));
         }
-
         return humanReadableSize;
     }
 

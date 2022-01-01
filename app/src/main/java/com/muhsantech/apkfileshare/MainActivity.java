@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         recyclerView = findViewById(R.id.app_list);
 
         // Get App List
@@ -37,11 +38,9 @@ public class MainActivity extends AppCompatActivity {
         for(ApplicationInfo packageInfo : packages){
 
             String name;
-
             if ((name = String.valueOf(pm.getApplicationLabel(packageInfo))).isEmpty()){
                 name = packageInfo.packageName;
             }
-
             Drawable icon = pm.getApplicationIcon(packageInfo);
             String apkPath = packageInfo.sourceDir;
             long apkSize = new File(packageInfo.sourceDir).length();
@@ -49,18 +48,18 @@ public class MainActivity extends AppCompatActivity {
             apps.add(new App(name, icon, apkPath, apkSize));
 
         }
-
+        // Sorting list items
         Collections.sort(apps, new Comparator<App>() {
             @Override
             public int compare(App app, App t1) {
                 return app.getName().toLowerCase().compareTo(t1.getName().toLowerCase());
             }
         });
-
+        // LinearLayoutManager used show list items
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-
+        // Create Adapter and setAdapter on recyclerView
         AppAdapter appAdapter = new AppAdapter(this,apps);
         recyclerView.setAdapter(appAdapter);
 
